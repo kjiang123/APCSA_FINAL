@@ -10,7 +10,7 @@ public class Dictionary {
 
     private static final String BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
-    public static Word dictionaryDef(String userWord){
+    public static void dictionaryDef(String userWord){
         String url = BASE_URL + userWord;
         String urlResponse = "";
 
@@ -24,7 +24,23 @@ public class Dictionary {
             System.out.println(e.getMessage());
         }
 
-        JSONObject jsonObj = new JSONObject(urlResponse);
+        JSONArray jsonArr = new JSONArray(urlResponse);
+        JSONObject jsonObj = jsonArr.getJSONObject(0);
+
+        String word = jsonObj.getString("word");
+
+        JSONArray phonetics = jsonObj.getJSONArray("phonetics");
+        for (int i = 0; i < phonetics.length(); i++){
+            JSONObject a = phonetics.getJSONObject(i);
+            if (a.has("text")) {
+                String text = a.getString("text");
+                System.out.println(text);
+            }
+        }
+
+        System.out.println(word);
+
+
 
 
 
