@@ -10,9 +10,10 @@ public class Dictionary {
 
     private static final String BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
-    public static void dictionaryDef(String userWord){
+    public static String dictionaryDef(String userWord){
         String url = BASE_URL + userWord;
         String urlResponse = "";
+
 
         try{
             URI myUri = URI.create(url);
@@ -25,25 +26,41 @@ public class Dictionary {
         }
 
         JSONArray jsonArr = new JSONArray(urlResponse);
-        JSONObject jsonObj = jsonArr.getJSONObject(0);
+        String build = "";
+        String word = "";
+        String phonetics = "";
+        String add = "";
 
-        String word = jsonObj.getString("word");
+        for (int i = 0; i < jsonArr.length(); i ++){
+            JSONObject jsonObj = jsonArr.getJSONObject(i);
 
-        JSONArray phonetics = jsonObj.getJSONArray("phonetics");
-        for (int i = 0; i < phonetics.length(); i++){
-            JSONObject a = phonetics.getJSONObject(i);
-            if (a.has("text")) {
-                String text = a.getString("text");
-                System.out.println(text);
+            word = jsonObj.getString("word");
+
+            JSONArray phoneticsArr = jsonObj.getJSONArray("phonetics");
+
+            for (int k = 0; k < phoneticsArr.length(); k++){
+                JSONObject a = phoneticsArr.getJSONObject(k);
+                if (a.has("text")) {
+                    phonetics = a.getString("text");
+                }
+            }
+
+            JSONArray defintionsArr = jsonObj.getJSONArray("meanings");
+
+            for (int j = 0; j < defintionsArr.length(); j ++){
+                JSONObject a = defintionsArr.getJSONObject(j);
+                String partOfSpeech = a.getString("partOfSpeech");
+                JSONArray subDefArr = a.getJSONArray("definitions");
+                for (int l = 0; l < subDefArr.length(); l++){
+                    JSONObject defObj = subDefArr.getJSONObject(l);
+                    String printDef = defObj.getString("definition");
+                    add += "\nPart of Speech: " + partOfSpeech + "\nDefinition: " + printDef + "\n";
+                }
             }
         }
 
-        System.out.println(word);
-
-
-
-
-
+        build = "Word: " + word + "\nPronunciation: " + phonetics + "\n" + add;
+        return build;
         }
     }
 

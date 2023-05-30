@@ -1,6 +1,6 @@
 public class Main {
     public static void main(String[] args){
 
-        Dictionary.dictionaryDef("hello");
+        System.out.println(Dictionary.dictionaryDef("set"));
     }
 }
