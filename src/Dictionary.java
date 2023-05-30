@@ -14,7 +14,6 @@ public class Dictionary {
         String url = BASE_URL + userWord;
         String urlResponse = "";
 
-
         try{
             URI myUri = URI.create(url);
             HttpRequest request = HttpRequest.newBuilder().uri(myUri).build();
