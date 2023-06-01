@@ -4,6 +4,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 
 public class Dictionary {
@@ -11,6 +13,7 @@ public class Dictionary {
     private static final String BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
     public static String dictionaryDef(String userWord){
+        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
         String url = BASE_URL + userWord;
         String urlResponse = "";
 
