@@ -46,8 +46,12 @@ public class DictionaryGUI extends JFrame {
         searchPanel.add(submitButton, constraints);
 
         resultPanel.setLayout(new BorderLayout());
-        resultPanel.add(scrollPane, BorderLayout.CENTER);
-        resultPanel.add(backButton, BorderLayout.PAGE_END);
+        JPanel resultContentPanel = new JPanel(new BorderLayout());
+        resultContentPanel.add(scrollPane, BorderLayout.CENTER);
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(backButton);
+        resultContentPanel.add(buttonPanel, BorderLayout.SOUTH);
+        resultPanel.add(resultContentPanel, BorderLayout.CENTER);
     }
 
     private void setupLayout() {
@@ -64,7 +68,7 @@ public class DictionaryGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String input = inputField.getText();
-                displayArea.append(Dictionary.dictionaryDef(input) + "\n");
+                displayArea.append(input + "\n");
                 inputField.setText("");
                 setContentPane(resultPanel);
                 revalidate();
