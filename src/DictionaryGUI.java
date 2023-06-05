@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.Font;
 
 public class DictionaryGUI extends JFrame {
     private JPanel searchPanel;
@@ -58,7 +59,8 @@ public class DictionaryGUI extends JFrame {
         setContentPane(searchPanel);
         setTitle("Dictionary");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(400, 300);
+        setSize(500, 400);
+        setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
     }
@@ -67,8 +69,11 @@ public class DictionaryGUI extends JFrame {
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setExtendedState(JFrame.MAXIMIZED_BOTH);
                 String input = inputField.getText();
-                displayArea.append(input + "\n");
+                displayArea.setFont(new Font("Serif", Font.PLAIN, 25));
+                displayArea.setText(Dictionary.dictionaryDef(input));
+                displayArea.setCaretPosition(0);
                 inputField.setText("");
                 setContentPane(resultPanel);
                 revalidate();
@@ -81,6 +86,8 @@ public class DictionaryGUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setContentPane(searchPanel);
+                setSize(500,400);
+                setLocationRelativeTo(null);
                 revalidate();
                 repaint();
                 inputField.requestFocus();
