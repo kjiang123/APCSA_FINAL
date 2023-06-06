@@ -13,6 +13,9 @@ public class Dictionary {
     private static final String BASE_URL = "https://api.dictionaryapi.dev/api/v2/entries/en/";
 
     public static String dictionaryDef(String userWord) {
+        if (userWord.equals("")){
+            return "You put in nothing. What are you doing?";
+        }
         BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(System.out, StandardCharsets.UTF_8));
         String url = BASE_URL + userWord;
         String urlResponse = "";
@@ -61,9 +64,17 @@ public class Dictionary {
                     String partOfSpeech = a.getString("partOfSpeech");
                     JSONArray subDefArr = a.getJSONArray("definitions");
                     for (int l = 0; l < subDefArr.length(); l++) {
+                        String example = "";
                         JSONObject defObj = subDefArr.getJSONObject(l);
+                        if (defObj.has("example")){
+                            example = defObj.getString("example");
+                        }
                         String printDef = defObj.getString("definition");
-                        add += "\nPart of Speech: " + partOfSpeech + "\nDefinition: " + printDef + "\n";
+                        if (!example.equals("")){
+                            add += "\nPart of Speech: " + partOfSpeech + "\nDefinition: " + printDef + "\nExample: " + example + "\n";
+                        } else {
+                            add += "\nPart of Speech: " + partOfSpeech + "\nDefinition: " + printDef + "\n";
+                        }
                     }
                 }
             }
